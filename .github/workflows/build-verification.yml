@@ -3,7 +3,7 @@ on:
   pull_request:
   push:
 jobs:
-  build:
+  build: 
     runs-on: windows-latest
     steps:
       - name: Check out repository code
