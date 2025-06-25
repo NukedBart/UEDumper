@@ -8,11 +8,34 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
 
+      - name: Checkout tag v1.11.1
+        run: git checkout tags/v1.11.1
       - name: Configure build for x64
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: x64
 
-      - name: Build
-        run: msbuild
+      - name: Build with MSBuild
+        run: msbuild UEDumper.sln /p:Configuration=Debug /p:Platform=x64
+
+      - name: Show output directory (for debug)
+        run: dir .\x64\Debug
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4.3.1
+        with:
+          name: UEDumper-Build
+          path: x64\Debug\*
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          # Artifact name
+          name: artifact
+          # A file, directory or wildcard pattern that describes what to upload
+          path: D:\\a\\UEDumper\\x64
+          # The desired behavior if no files are found using the provided path.
